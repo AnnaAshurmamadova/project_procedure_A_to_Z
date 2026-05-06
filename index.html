@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #f5f5f5;
+    padding: 32px;
+  }
+  .wrap {
+    background: #fff;
+    border-radius: 16px;
+    padding: 36px 40px 44px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+    letter-spacing: -.3px;
+  }
+  p.sub {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 24px;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+  }
+  .leg {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: #555;
+  }
+  .leg-dot {
+    width: 12px; height: 12px;
+    border-radius: 4px;
+  }
+
+  .phase-block { margin-bottom: 20px; }
+  .phase-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .grid-6 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .step {
+    border-radius: 10px;
+    padding: 12px 13px 10px;
+    text-decoration: none;
+    display: block;
+    transition: box-shadow .15s;
+  }
+  .step:hover { box-shadow: 0 3px 12px rgba(0,0,0,.13); }
+  .num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    margin-bottom: 5px;
+    opacity: .65;
+  }
+  .name {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+  .roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .role {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  /* Blue — Sales */
+  .s { background: #EBF4FD; border: 1px solid #C4DCFA; }
+  .s .num, .s .name { color: #0D4C8A; }
+  .s .r-pm   { background: #C4DCFA; color: #04305a; }
+  .s .r-sale { background: #74B4EF; color: #04305a; }
+  .s .r-ba   { background: #2E80CA; color: #fff; }
+
+  /* Green — Pre-sale prep */
+  .g { background: #EBF5DE; border: 1px solid #BFE08A; }
+  .g .num, .g .name { color: #295308; }
+  .g .r-pm   { background: #BFE08A; color: #1a3705; }
+  .g .r-sale { background: #84C43A; color: #1a3705; }
+  .g .r-ba   { background: #57991A; color: #fff; }
+
+  /* Amber — Contract */
+  .a { background: #FEF3E2; border: 1px solid #FBCC7A; }
+  .a .num, .a .name { color: #6B3E06; }
+  .a .r-pm   { background: #FBCC7A; color: #3d2203; }
+  .a .r-sale { background: #F5A623; color: #3d2203; }
+
+  /* Purple — Dev */
+  .p { background: #EFEDFE; border: 1px solid #CDC9F8; }
+  .p .num, .p .name { color: #3D3591; }
+  .p .r-pm   { background: #CDC9F8; color: #26215c; }
+  .p .r-dev  { background: #7C73DC; color: #fff; }
+  .p .r-ba   { background: #ACA5EC; color: #26215c; }
+  .p .r-sale { background: #9089E0; color: #fff; }
+
+  /* Teal — Close */
+  .t { background: #E0F6EE; border: 1px solid #99DFCB; }
+  .t .num, .t .name { color: #095142; }
+  .t .r-pm   { background: #99DFCB; color: #04342c; }
+  .t .r-sale { background: #4EC9A2; color: #04342c; }
+  .t .r-dev  { background: #199E74; color: #fff; }
+
+  /* Pink — Support */
+  .k { background: #FBEBF0; border: 1px solid #F3BFCF; }
+  .k .num, .k .name { color: #73253F; }
+  .k .r-pm   { background: #F3BFCF; color: #4b1528; }
+  .k .r-dev  { background: #D3517C; color: #fff; }
+  .k .r-sale { background: #EC90B0; color: #4b1528; }
+
+  /* Gray — extra */
+  .x { background: #f8f8f8; border: 1px solid #e0e0e0; }
+  .x .num, .x .name { color: #777; }
+
+  .footer {
+    font-size: 11px;
+    color: #bbb;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Процедура ведення проєкту від А до Я</h1>
+  <p class="sub">22 кроки — від лідогенерації до саппорту</p>
+
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:#2E80CA"></div>Продажі / Pre-Sale</div>
+    <div class="leg"><div class="leg-dot" style="background:#57991A"></div>Передпроєктна підготовка</div>
+    <div class="leg"><div class="leg-dot" style="background:#F5A623"></div>Договір та платежі</div>
+    <div class="leg"><div class="leg-dot" style="background:#7C73DC"></div>Розробка</div>
+    <div class="leg"><div class="leg-dot" style="background:#199E74"></div>Закриття проєкту</div>
+    <div class="leg"><div class="leg-dot" style="background:#D3517C"></div>Підтримка</div>
+    <div class="leg" style="margin-left:auto">
+      <div class="leg-dot" style="background:#2E80CA;border-radius:2px"></div><span style="font-size:11px">PM</span>
+      <div class="leg-dot" style="background:#7C73DC;border-radius:2px;margin-left:8px"></div><span style="font-size:11px">BA</span>
+      <div class="leg-dot" style="background:#F5A623;border-radius:2px;margin-left:8px"></div><span style="font-size:11px">Sale</span>
+      <div class="leg-dot" style="background:#199E74;border-radius:2px;margin-left:8px"></div><span style="font-size:11px">Dev</span>
+    </div>
+  </div>
+
+  <!-- Sales -->
+  <div class="phase-block">
+    <div class="phase-label">Продажі та Pre-Sale</div>
+    <div class="grid grid-6">
+      <a class="step s" href="https://space.good-will.biz/pages/viewpage.action?pageId=29392964">
+        <div class="num">01</div><div class="name">Лідо­генерація</div>
+        <div class="roles"><span class="role r-sale">Sale</span></div>
+      </a>
+      <a class="step s" href="https://space.good-will.biz/pages/viewpage.action?pageId=29425758">
+        <div class="num">02</div><div class="name">Перша зустріч</div>
+        <div class="roles"><span class="role r-sale">Sale</span></div>
+      </a>
+      <a class="step g" href="https://space.good-will.biz/pages/viewpage.action?pageId=26312708">
+        <div class="num">03</div><div class="name">Pre-Sale етап</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-sale">Sale</span></div>
+      </a>
+      <a class="step g" href="https://space.good-will.biz/pages/viewpage.action?pageId=29425773">
+        <div class="num">04</div><div class="name">Скринінг <span style="font-weight:400;font-size:11px">(опційний)</span></div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-sale">Sale</span></div>
+      </a>
+      <a class="step g" href="https://space.good-will.biz/pages/viewpage.action?pageId=29491302">
+        <div class="num">05</div><div class="name">Передпроєктне обстеження ППО</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-sale">Sale</span><span class="role r-ba">BA</span></div>
+      </a>
+      <a class="step g" href="https://space.good-will.biz/pages/viewpage.action?pageId=29425786">
+        <div class="num">06</div><div class="name">Захист комерційної пропозиції</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-ba">BA</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Contract -->
+  <div class="phase-block">
+    <div class="phase-label">Договір та Kick-off</div>
+    <div class="grid">
+      <a class="step a" href="https://space.good-will.biz/pages/viewpage.action?pageId=29458503">
+        <div class="num">07</div><div class="name">Підписання договору</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-sale">Sale</span></div>
+      </a>
+      <a class="step a" href="https://space.good-will.biz/pages/viewpage.action?pageId=29458491">
+        <div class="num">08</div><div class="name">Перший платіж за договором</div>
+        <div class="roles"><span class="role r-pm">PM</span></div>
+      </a>
+      <a class="step p" href="https://space.good-will.biz/pages/viewpage.action?pageId=4817113">
+        <div class="num">09</div><div class="name">Установча зустріч (Kick-off)</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-sale">Sale</span><span class="role r-ba">BA</span></div>
+      </a>
+      <a class="step p" href="https://space.good-will.biz/pages/viewpage.action?pageId=26279957">
+        <div class="num">10</div><div class="name">Розробка та погодження ТЗ</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-sale">Sale</span><span class="role r-ba">BA</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Dev -->
+  <div class="phase-block">
+    <div class="phase-label">Реалізація</div>
+    <div class="grid">
+      <a class="step a" href="https://space.good-will.biz/pages/viewpage.action?pageId=29393030">
+        <div class="num">11</div><div class="name">Другий платіж за контрактом</div>
+        <div class="roles"><span class="role r-pm">PM</span></div>
+      </a>
+      <a class="step p" href="https://space.good-will.biz/pages/viewpage.action?pageId=29393055">
+        <div class="num">12</div><div class="name">Установча зустріч на розробку</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-sale">Sale</span><span class="role r-dev">Dev</span></div>
+      </a>
+      <a class="step p" href="https://space.good-will.biz/pages/viewpage.action?pageId=29425830">
+        <div class="num">13</div><div class="name">Реалізація та внутрішнє тестування</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-dev">Dev</span></div>
+      </a>
+      <a class="step p" href="https://space.good-will.biz/pages/viewpage.action?pageId=29425850">
+        <div class="num">14</div><div class="name">Написання проєктної документації</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-dev">Dev</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- UAT -->
+  <div class="phase-block">
+    <div class="phase-label">Приймання та здача</div>
+    <div class="grid">
+      <a class="step p" href="https://space.good-will.biz/pages/viewpage.action?pageId=29786221">
+        <div class="num">15</div><div class="name">Перевірка користувача в ТЕСТ</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-dev">Dev</span></div>
+      </a>
+      <a class="step t" href="https://space.good-will.biz/pages/viewpage.action?pageId=29393287">
+        <div class="num">16</div><div class="name">Підписання актів виконаних робіт</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-sale">Sale</span></div>
+      </a>
+      <a class="step p" href="https://space.good-will.biz/pages/viewpage.action?pageId=29458730">
+        <div class="num">17</div><div class="name">Тестування користувача в ПРОД</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-dev">Dev</span></div>
+      </a>
+      <a class="step t" href="https://space.good-will.biz/pages/viewpage.action?pageId=29786267">
+        <div class="num">18</div><div class="name">Закриття проєкту проєктним офісом</div>
+        <div class="roles"><span class="role r-pm">PM</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Close -->
+  <div class="phase-block">
+    <div class="phase-label">Постпроєктне закриття</div>
+    <div class="grid">
+      <a class="step t" href="https://space.good-will.biz/pages/viewpage.action?pageId=29393306">
+        <div class="num">19</div><div class="name">Постпроєктна підтримка / PIR</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-sale">Sale</span><span class="role r-dev">Dev</span></div>
+      </a>
+      <a class="step t" href="https://space.good-will.biz/pages/viewpage.action?pageId=4817372">
+        <div class="num">20</div><div class="name">Кінцеві дії: передача та ретроспектива</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-dev">Dev</span></div>
+      </a>
+      <a class="step k" href="https://space.good-will.biz/pages/viewpage.action?pageId=29393318">
+        <div class="num">21</div><div class="name">Підписання договору підтримки</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-sale">Sale</span></div>
+      </a>
+      <a class="step k" href="https://space.good-will.biz/pages/viewpage.action?pageId=29393330">
+        <div class="num">22</div><div class="name">Саппорт (Support)</div>
+        <div class="roles"><span class="role r-pm">PM</span><span class="role r-dev">Dev</span></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Extra -->
+  <div class="phase-block">
+    <div class="phase-label">Додаткові процеси</div>
+    <div class="grid">
+      <a class="step x" href="https://space.good-will.biz/pages/viewpage.action?pageId=54198642">
+        <div class="num">→</div><div class="name">Проактивний моніторинг роботів РПА</div>
+        <div class="roles"></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">good-will.biz · Confluence · Процедура ведення проєкту від А до Я</div>
+</div>
+</body>
+</html>
